@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReserveRouteImport } from './routes/reserve'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ApproachRouteImport } from './routes/approach'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ReserveRoute = ReserveRouteImport.update({
+  id: '/reserve',
+  path: '/reserve',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApproachRoute = ApproachRouteImport.update({
+  id: '/approach',
+  path: '/approach',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +37,61 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/approach': typeof ApproachRoute
+  '/contact': typeof ContactRoute
+  '/reserve': typeof ReserveRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/approach': typeof ApproachRoute
+  '/contact': typeof ContactRoute
+  '/reserve': typeof ReserveRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/approach': typeof ApproachRoute
+  '/contact': typeof ContactRoute
+  '/reserve': typeof ReserveRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/approach' | '/contact' | '/reserve'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/approach' | '/contact' | '/reserve'
+  id: '__root__' | '/' | '/approach' | '/contact' | '/reserve'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApproachRoute: typeof ApproachRoute
+  ContactRoute: typeof ContactRoute
+  ReserveRoute: typeof ReserveRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reserve': {
+      id: '/reserve'
+      path: '/reserve'
+      fullPath: '/reserve'
+      preLoaderRoute: typeof ReserveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/approach': {
+      id: '/approach'
+      path: '/approach'
+      fullPath: '/approach'
+      preLoaderRoute: typeof ApproachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +104,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApproachRoute: ApproachRoute,
+  ContactRoute: ContactRoute,
+  ReserveRoute: ReserveRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
