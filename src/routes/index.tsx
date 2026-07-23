@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
           "Helping learners build confidence, improve their marks and enjoy learning again. English speciality with support across most school subjects.",
       },
       { property: "og:title", content: "A Helping Hand — Patient, personal tutoring" },
-      { property: "og:description", content: "Warm, one-on-one lessons that make learning feel achievable." },
+      { property: "og:description", content: "Helping learners build confidence, improve their marks and enjoy learning again. English speciality with support across most school subjects." },
     ],
   }),
   component: Home,

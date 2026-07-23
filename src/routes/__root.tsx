@@ -81,10 +81,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Warm, one-on-one tutoring that helps learners build confidence and enjoy learning again. English speciality plus support across most school subjects.",
+          "Helping learners build confidence, improve their marks and enjoy learning again. English speciality with support across most school subjects.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "A Helping Hand — Patient, personal tutoring" },
+      { name: "twitter:title", content: "A Helping Hand — Patient, personal tutoring" },
+      { property: "og:description", content: "Helping learners build confidence, improve their marks and enjoy learning again. English speciality with support across most school subjects." },
+      { name: "twitter:description", content: "Helping learners build confidence, improve their marks and enjoy learning again. English speciality with support across most school subjects." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2d35f09f-c3d8-456b-a44b-28e75b7c7547/id-preview-f94da08b--12cef91e-412f-496b-8f3f-d7d15847c5f4.lovable.app-1784846914154.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2d35f09f-c3d8-456b-a44b-28e75b7c7547/id-preview-f94da08b--12cef91e-412f-496b-8f3f-d7d15847c5f4.lovable.app-1784846914154.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
