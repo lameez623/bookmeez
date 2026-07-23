@@ -14,13 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string
+          day_of_week: string
+          email: string
+          grade: string
+          id: string
+          learner_name: string
+          lesson_type: string
+          notes: string | null
+          parent_name: string
+          phone: string
+          school: string | null
+          session_mode: string
+          status: string
+          subjects: string[]
+          time_slot: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: string
+          email: string
+          grade: string
+          id?: string
+          learner_name: string
+          lesson_type: string
+          notes?: string | null
+          parent_name: string
+          phone: string
+          school?: string | null
+          session_mode: string
+          status?: string
+          subjects: string[]
+          time_slot: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: string
+          email?: string
+          grade?: string
+          id?: string
+          learner_name?: string
+          lesson_type?: string
+          notes?: string | null
+          parent_name?: string
+          phone?: string
+          school?: string | null
+          session_mode?: string
+          status?: string
+          subjects?: string[]
+          time_slot?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_booked_slots: {
+        Args: never
+        Returns: {
+          day_of_week: string
+          time_slot: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
