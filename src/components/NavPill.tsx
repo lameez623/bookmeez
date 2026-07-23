@@ -14,7 +14,7 @@ export function NavPill() {
     <motion.nav
       initial={{ y: 40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
       className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2"
       aria-label="Primary"
     >
