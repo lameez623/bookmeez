@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
+const TIMES = ["1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM"] as const;
+
 const BookingSchema = z.object({
   parent_name: z.string().trim().min(1).max(120),
   learner_name: z.string().trim().min(1).max(120),
@@ -8,20 +10,55 @@ const BookingSchema = z.object({
   school: z.string().trim().max(160).optional().or(z.literal("")),
   phone: z.string().trim().min(6).max(40),
   email: z.string().trim().email().max(200),
-  subjects: z.array(z.string().min(1).max(60)).min(1).max(10),
+  subjects: z.array(z.string().min(1).max(60)).min(1).max(12),
   lesson_type: z.enum(["individual", "group"]),
   session_mode: z.enum(["online", "in_person"]),
-  day_of_week: z.enum(["Monday", "Tuesday", "Wednesday", "Thursday"]),
-  time_slot: z.enum(["1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM"]),
+  lesson_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  time_slot: z.enum(TIMES),
   notes: z.string().max(1000).optional().or(z.literal("")),
 });
 
 export type BookingInput = z.infer<typeof BookingSchema>;
 
+const WEEKDAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 export const createBooking = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => BookingSchema.parse(data))
   .handler(async ({ data }) => {
+    const [y, m, d] = data.lesson_date.split("-").map(Number);
+    const date = new Date(Date.UTC(y, m - 1, d));
+    const weekdayIndex = date.getUTCDay();
+
+    if (weekdayIndex < 1 || weekdayIndex > 4) {
+      return { ok: false as const, reason: "invalid_day" as const };
+    }
+
+    const todayKey = new Date().toISOString().slice(0, 10);
+    if (data.lesson_date < todayKey) {
+      return { ok: false as const, reason: "past_date" as const };
+    }
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // Administrator blocks (whole day or a single slot)
+    const { data: blocks } = await supabaseAdmin
+      .from("blocked_slots")
+      .select("time_slot")
+      .eq("blocked_date", data.lesson_date);
+
+    if (
+      (blocks ?? []).some((b) => b.time_slot === null || b.time_slot === data.time_slot)
+    ) {
+      return { ok: false as const, reason: "blocked" as const };
+    }
 
     const { data: inserted, error } = await supabaseAdmin
       .from("bookings")
@@ -35,7 +72,8 @@ export const createBooking = createServerFn({ method: "POST" })
         subjects: data.subjects,
         lesson_type: data.lesson_type,
         session_mode: data.session_mode,
-        day_of_week: data.day_of_week,
+        lesson_date: data.lesson_date,
+        day_of_week: WEEKDAYS[weekdayIndex],
         time_slot: data.time_slot,
         notes: data.notes || null,
       })
@@ -51,33 +89,56 @@ export const createBooking = createServerFn({ method: "POST" })
       throw new Error("Could not save booking");
     }
 
-    // Fire-and-forget notification (best effort). Email sending can be wired up
-    // once an email domain is configured; for now we log server-side so the
-    // owner has a paper-trail alongside the DB row.
-    console.info("[booking] new reservation", {
+    // Notification payload — emailed to the owner once a sender domain is live.
+    console.info("[booking] New Tutoring Booking", {
       id: inserted.id,
       to: "Lameez623@gmail.com",
-      parent: data.parent_name,
-      learner: data.learner_name,
+      subject: "New Tutoring Booking",
+      parent_name: data.parent_name,
+      learner_name: data.learner_name,
       grade: data.grade,
-      subjects: data.subjects,
+      subjects: data.subjects.join(", "),
       lesson_type: data.lesson_type,
       session_mode: data.session_mode,
-      day: data.day_of_week,
+      date: data.lesson_date,
       time: data.time_slot,
-      contact: { email: data.email, phone: data.phone },
-      notes: data.notes,
+      phone: data.phone,
+      email: data.email,
+      notes: data.notes || "",
     });
 
     return { ok: true as const, id: inserted.id };
   });
 
-export const getBookedSlots = createServerFn({ method: "GET" }).handler(async () => {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data, error } = await supabaseAdmin.rpc("get_booked_slots");
+export type AvailabilityRow = {
+  lesson_date: string;
+  time_slot: string | null;
+  kind: string;
+};
+
+export const getAvailability = createServerFn({ method: "GET" }).handler(async () => {
+  const { createClient } = await import("@supabase/supabase-js");
+  const url = process.env.SUPABASE_URL!;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
+
+  const supabase = createClient(url, key, {
+    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+    global: {
+      fetch: (input: RequestInfo | URL, init?: RequestInit) => {
+        const h = new Headers(init?.headers);
+        if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) {
+          h.delete("Authorization");
+        }
+        h.set("apikey", key);
+        return fetch(input, { ...init, headers: h });
+      },
+    },
+  });
+
+  const { data, error } = await supabase.rpc("get_availability");
   if (error) {
-    console.error("[getBookedSlots] rpc failed", error);
-    return [] as Array<{ day_of_week: string; time_slot: string }>;
+    console.error("[getAvailability] rpc failed", error);
+    return [] as AvailabilityRow[];
   }
-  return (data ?? []) as Array<{ day_of_week: string; time_slot: string }>;
+  return (data ?? []) as AvailabilityRow[];
 });

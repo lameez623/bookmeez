@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      blocked_slots: {
+        Row: {
+          blocked_date: string
+          created_at: string
+          id: string
+          reason: string | null
+          time_slot: string | null
+        }
+        Insert: {
+          blocked_date: string
+          created_at?: string
+          id?: string
+          reason?: string | null
+          time_slot?: string | null
+        }
+        Update: {
+          blocked_date?: string
+          created_at?: string
+          id?: string
+          reason?: string | null
+          time_slot?: string | null
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           created_at: string
@@ -22,6 +46,7 @@ export type Database = {
           grade: string
           id: string
           learner_name: string
+          lesson_date: string
           lesson_type: string
           notes: string | null
           parent_name: string
@@ -39,6 +64,7 @@ export type Database = {
           grade: string
           id?: string
           learner_name: string
+          lesson_date: string
           lesson_type: string
           notes?: string | null
           parent_name: string
@@ -56,6 +82,7 @@ export type Database = {
           grade?: string
           id?: string
           learner_name?: string
+          lesson_date?: string
           lesson_type?: string
           notes?: string | null
           parent_name?: string
@@ -68,21 +95,50 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      get_booked_slots: {
+      get_availability: {
         Args: never
         Returns: {
-          day_of_week: string
+          kind: string
+          lesson_date: string
           time_slot: string
         }[]
       }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -209,6 +265,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
