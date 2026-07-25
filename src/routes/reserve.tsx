@@ -13,10 +13,13 @@ import {
   MapPin,
   Sparkles,
   Loader2,
+  CalendarDays,
 } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { OrganicShapes } from "@/components/OrganicShapes";
-import { createBooking, getBookedSlots } from "@/lib/bookings.functions";
+import { createBooking, getAvailability } from "@/lib/bookings.functions";
+import { Calendar } from "@/components/ui/calendar";
+import { toDateKey, formatDateLong } from "@/lib/booking-constants";
 
 export const Route = createFileRoute("/reserve")({
   head: () => ({
@@ -44,6 +47,7 @@ const SUBJECTS = [
   "English",
   "Mathematics",
   "Afrikaans",
+  "Technology",
   "Natural Sciences",
   "Life Sciences",
   "Physical Sciences",
@@ -53,9 +57,6 @@ const SUBJECTS = [
   "Business Studies",
 ] as const;
 type Subject = (typeof SUBJECTS)[number];
-
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday"] as const;
-type Day = (typeof DAYS)[number];
 
 const TIMES = ["1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM"] as const;
 type Time = (typeof TIMES)[number];
@@ -68,7 +69,7 @@ interface BookingState {
   subjects: Subject[];
   lesson_type: LessonType | null;
   session_mode: SessionMode | null;
-  day: Day | null;
+  date: string | null;
   time: Time | null;
   parent_name: string;
   learner_name: string;
@@ -83,7 +84,7 @@ const initialState: BookingState = {
   subjects: [],
   lesson_type: null,
   session_mode: null,
-  day: null,
+  date: null,
   time: null,
   parent_name: "",
   learner_name: "",
@@ -98,7 +99,7 @@ const STEP_LABELS = [
   "Subjects",
   "Lesson type",
   "Session",
-  "Day",
+  "Date",
   "Time",
   "Your details",
 ];
@@ -108,20 +109,45 @@ function Reserve() {
   const [state, setState] = useState<BookingState>(initialState);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const fetchBooked = useServerFn(getBookedSlots);
+  const [inPersonNotice, setInPersonNotice] = useState(false);
+  const [inPersonAcknowledged, setInPersonAcknowledged] = useState(false);
+  const fetchAvailability = useServerFn(getAvailability);
   const submit = useServerFn(createBooking);
 
   const bookedQuery = useQuery({
-    queryKey: ["booked-slots"],
-    queryFn: () => fetchBooked(),
+    queryKey: ["availability"],
+    queryFn: () => fetchAvailability(),
     staleTime: 30_000,
   });
 
-  const bookedSet = useMemo(() => {
-    const s = new Set<string>();
-    (bookedQuery.data ?? []).forEach((b) => s.add(`${b.day_of_week}__${b.time_slot}`));
-    return s;
+  // Unavailable slot keys ("YYYY-MM-DD__1 PM") and fully-unavailable dates.
+  const { unavailableSet, unavailableDates } = useMemo(() => {
+    const set = new Set<string>();
+    const wholeDays = new Set<string>();
+    (bookedQuery.data ?? []).forEach((row) => {
+      if (row.time_slot === null) wholeDays.add(row.lesson_date);
+      else set.add(`${row.lesson_date}__${row.time_slot}`);
+    });
+    const counts = new Map<string, number>();
+    set.forEach((k) => {
+      const d = k.split("__")[0];
+      counts.set(d, (counts.get(d) ?? 0) + 1);
+    });
+    counts.forEach((n, d) => {
+      if (n >= TIMES.length) wholeDays.add(d);
+    });
+    return { unavailableSet: set, unavailableDates: wholeDays };
   }, [bookedQuery.data]);
+
+
+  const isDateDisabled = (day: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (day < today) return true;
+    const weekday = day.getDay();
+    if (weekday < 1 || weekday > 4) return true;
+    return unavailableDates.has(toDateKey(day));
+  };
 
   const totalSteps = STEP_LABELS.length;
   const progress = Math.min(100, ((step) / totalSteps) * 100);
@@ -131,8 +157,8 @@ function Reserve() {
       case 0: return !!state.grade;
       case 1: return state.subjects.length > 0;
       case 2: return !!state.lesson_type;
-      case 3: return !!state.session_mode;
-      case 4: return !!state.day;
+      case 3: return !!state.session_mode && (state.session_mode !== "in_person" || inPersonAcknowledged);
+      case 4: return !!state.date;
       case 5: return !!state.time;
       case 6: return (
         state.parent_name.trim().length > 0 &&
@@ -160,14 +186,16 @@ function Reserve() {
           subjects: state.subjects,
           lesson_type: state.lesson_type!,
           session_mode: state.session_mode!,
-          day_of_week: state.day!,
+          lesson_date: state.date!,
           time_slot: state.time!,
           notes: state.notes.trim(),
         },
       });
       if (!result.ok) {
         setError(
-          "That time was just booked. Please pick another slot — we've refreshed availability.",
+          result.reason === "blocked"
+            ? "That time is no longer available. Please choose another slot."
+            : "That time was just booked. Please pick another slot — we've refreshed availability.",
         );
         await bookedQuery.refetch();
         setStep(5);
@@ -304,7 +332,10 @@ function Reserve() {
                       title="In person"
                       body="Face-to-face lessons — quiet, calm setting."
                       selected={state.session_mode === "in_person"}
-                      onClick={() => setState({ ...state, session_mode: "in_person" })}
+                      onClick={() => {
+                        setState({ ...state, session_mode: "in_person" });
+                        if (!inPersonAcknowledged) setInPersonNotice(true);
+                      }}
                     />
                     {state.session_mode === "in_person" && (
                       <motion.p
@@ -320,27 +351,41 @@ function Reserve() {
                 )}
 
                 {step === 4 && (
-                  <StepGrid label="Which day works best?">
-                    {DAYS.map((d) => (
-                      <Chip
-                        key={d}
-                        selected={state.day === d}
-                        onClick={() => setState({ ...state, day: d, time: null })}
-                      >
-                        {d}
-                      </Chip>
-                    ))}
-                  </StepGrid>
+                  <div>
+                    <h2 className="font-display text-2xl font-bold">Choose a date</h2>
+                    <p className="mt-1 text-sm text-ink-soft">
+                      Lessons run Monday to Thursday. Unavailable days are greyed out.
+                    </p>
+                    <div className="mt-6 flex justify-center">
+                      <Calendar
+                        mode="single"
+                        selected={state.date ? new Date(`${state.date}T00:00:00`) : undefined}
+                        onSelect={(d) =>
+                          d && setState({ ...state, date: toDateKey(d), time: null })
+                        }
+                        disabled={isDateDisabled}
+                        fromDate={new Date()}
+                        className="pointer-events-auto rounded-3xl border border-border bg-background p-3"
+                      />
+                    </div>
+                    {state.date && (
+                      <p className="mt-5 flex items-center justify-center gap-2 text-sm text-ink-soft">
+                        <CalendarDays className="h-4 w-4 text-sage" />
+                        {formatDateLong(state.date)}
+                      </p>
+                    )}
+                  </div>
                 )}
 
                 {step === 5 && (
                   <StepGrid
                     label="Pick a one-hour slot"
-                    hint={state.day ? `Available times on ${state.day}` : ""}
+                    hint={state.date ? `Available times on ${formatDateLong(state.date)}` : ""}
                   >
                     {TIMES.map((t) => {
-                      const disabled = state.day
-                        ? bookedSet.has(`${state.day}__${t}`)
+                      const disabled = state.date
+                        ? unavailableSet.has(`${state.date}__${t}`) ||
+                          unavailableDates.has(state.date)
                         : true;
                       return (
                         <Chip
@@ -358,6 +403,7 @@ function Reserve() {
                     })}
                   </StepGrid>
                 )}
+
 
                 {step === 6 && (
                   <div>
@@ -444,6 +490,57 @@ function Reserve() {
           )}
         </div>
       </section>
+      <AnimatePresence>
+        {inPersonNotice && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] grid place-items-center bg-ink/30 px-5 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="in-person-title"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.98 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
+              className="card-soft w-full max-w-md"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-sage-soft">
+                <MapPin className="h-5 w-5 text-ink" strokeWidth={1.8} />
+              </span>
+              <h2 id="in-person-title" className="mt-4 font-display text-2xl font-bold">
+                In-Person Lessons
+              </h2>
+              <div className="mt-3 space-y-3 text-sm leading-relaxed text-ink-soft">
+                <p>Thank you for choosing an in-person lesson.</p>
+                <p>We currently travel only within selected areas of Durban.</p>
+                <p>
+                  After completing your booking, please send us a WhatsApp message with your
+                  address so we can confirm whether we are able to travel to your location.
+                </p>
+                <p>
+                  If your area falls outside our travel zone, we will gladly arrange an online
+                  lesson instead.
+                </p>
+              </div>
+              <div className="mt-6 flex justify-end">
+                <button
+                  className="btn-primary"
+                  onClick={() => {
+                    setInPersonAcknowledged(true);
+                    setInPersonNotice(false);
+                  }}
+                >
+                  I understand <CheckCircle2 className="h-4 w-4" />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </PageShell>
   );
 }
@@ -573,7 +670,7 @@ function Summary({ state }: { state: BookingState }) {
         <SumItem k="Subjects" v={state.subjects.join(", ") || "—"} />
         <SumItem k="Lesson type" v={state.lesson_type === "individual" ? "Individual" : state.lesson_type === "group" ? "Group" : "—"} />
         <SumItem k="Session" v={state.session_mode === "online" ? "Online" : state.session_mode === "in_person" ? "In person" : "—"} />
-        <SumItem k="Day" v={state.day ?? "—"} />
+        <SumItem k="Date" v={state.date ? formatDateLong(state.date) : "—"} />
         <SumItem k="Time" v={state.time ?? "—"} />
       </dl>
     </div>
@@ -612,7 +709,7 @@ function ConfirmationCard({ state }: { state: BookingState }) {
       <div className="mt-8 grid gap-3 rounded-3xl border border-border bg-secondary/60 p-5 text-left sm:grid-cols-2">
         <SumItem k="Grade" v={state.grade ?? "—"} />
         <SumItem k="Subjects" v={state.subjects.join(", ")} />
-        <SumItem k="Day" v={state.day ?? "—"} />
+        <SumItem k="Date" v={state.date ? formatDateLong(state.date) : "—"} />
         <SumItem k="Time" v={state.time ?? "—"} />
         <SumItem k="Session" v={state.session_mode === "online" ? "Online" : "In person"} />
         <SumItem k="Lesson type" v={state.lesson_type === "individual" ? "Individual" : "Group"} />
