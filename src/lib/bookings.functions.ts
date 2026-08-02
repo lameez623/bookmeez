@@ -89,27 +89,25 @@ export const createBooking = createServerFn({ method: "POST" })
       throw new Error("Could not save booking");
     }
 
-    // Booking is saved — send exactly one WhatsApp + one email notification.
-    const { notifyNewBooking } = await import("@/lib/notifications.server");
-    await notifyNewBooking({
+    // Notification payload — emailed to the owner once a sender domain is live.
+    console.info("[booking] New Tutoring Booking", {
       id: inserted.id,
+      to: "Lameez623@gmail.com",
+      subject: "New Tutoring Booking",
       parent_name: data.parent_name,
       learner_name: data.learner_name,
       grade: data.grade,
-      school: data.school || null,
-      subjects: data.subjects,
+      subjects: data.subjects.join(", "),
       lesson_type: data.lesson_type,
       session_mode: data.session_mode,
-      lesson_date: data.lesson_date,
-      day_of_week: WEEKDAYS[weekdayIndex],
-      time_slot: data.time_slot,
+      date: data.lesson_date,
+      time: data.time_slot,
       phone: data.phone,
       email: data.email,
-      notes: data.notes || null,
+      notes: data.notes || "",
     });
 
     return { ok: true as const, id: inserted.id };
-
   });
 
 export type AvailabilityRow = {
