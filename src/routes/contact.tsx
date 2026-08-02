@@ -142,8 +142,9 @@ function Contact() {
                     className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none transition-all focus:border-sage focus:ring-2 focus:ring-sage/30"
                   />
                 </div>
-                <button type="submit" className="btn-primary w-full">
-                  Send message <Send className="h-4 w-4" />
+                {error ? <p className="text-sm text-destructive">{error}</p> : null}
+                <button type="submit" disabled={submitting} className="btn-primary w-full disabled:opacity-60">
+                  {submitting ? "Sending…" : "Send message"} <Send className="h-4 w-4" />
                 </button>
               </div>
             )}
