@@ -89,23 +89,29 @@ export const createBooking = createServerFn({ method: "POST" })
       throw new Error("Could not save booking");
     }
 
-    // Notification payload — emailed to the owner once a sender domain is live.
-    console.info("[booking] New Tutoring Booking", {
-      id: inserted.id,
-      to: "Lameez623@gmail.com",
-      subject: "New Tutoring Booking",
-      parent_name: data.parent_name,
-      learner_name: data.learner_name,
-      grade: data.grade,
-      subjects: data.subjects.join(", "),
-      lesson_type: data.lesson_type,
-      session_mode: data.session_mode,
-      date: data.lesson_date,
-      time: data.time_slot,
-      phone: data.phone,
-      email: data.email,
-      notes: data.notes || "",
-    });
+    // Booking is saved. Notify Discord exactly once; failures never undo the booking.
+    const { sendDiscordNotification, field } = await import("@/lib/notifications.server");
+
+    const notified = await sendDiscordNotification("📚 New Tutoring Booking", [
+      field("Parent", data.parent_name),
+      field("Learner", data.learner_name),
+      field("Grade", data.grade),
+      field("School", data.school),
+      field("Subjects", data.subjects.join(", "), false),
+      field("Lesson type", data.lesson_type),
+      field("Session mode", data.session_mode),
+      field("Lesson date", data.lesson_date),
+      field("Day", WEEKDAYS[weekdayIndex]),
+      field("Time slot", data.time_slot),
+      field("Phone", data.phone),
+      field("Email", data.email),
+      field("Notes", data.notes, false),
+      field("Booking ID", inserted.id, false),
+    ]);
+
+    if (!notified) {
+      console.error("[createBooking] Discord notification failed for booking", inserted.id);
+    }
 
     return { ok: true as const, id: inserted.id };
   });
