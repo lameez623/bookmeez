@@ -111,10 +111,7 @@ function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="card-soft"
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-            }}
+            onSubmit={handleSubmit}
           >
             <h2 className="text-2xl font-bold">Send an enquiry</h2>
             <p className="mt-2 text-sm text-ink-soft">
