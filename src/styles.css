@@ -90,22 +90,78 @@
   --apricot-soft: oklch(0.94 0.045 70);
 }
 
+/* Dark theme: same BookMeez identity, warmed-down surfaces. */
+.dark {
+  --background: oklch(0.2 0.008 84);
+  --foreground: oklch(0.95 0.006 84);
+  --ink: oklch(0.95 0.006 84);
+  --ink-soft: oklch(0.78 0.008 84);
+
+  --card: oklch(0.245 0.008 84);
+  --card-foreground: oklch(0.95 0.006 84);
+  --popover: oklch(0.245 0.008 84);
+  --popover-foreground: oklch(0.95 0.006 84);
+
+  --primary: oklch(0.93 0.02 130);
+  --primary-foreground: oklch(0.22 0.008 84);
+
+  --secondary: oklch(0.28 0.008 84);
+  --secondary-foreground: oklch(0.95 0.006 84);
+
+  --muted: oklch(0.28 0.008 84);
+  --muted-foreground: oklch(0.72 0.008 84);
+
+  --accent: oklch(0.35 0.03 140);
+  --accent-foreground: oklch(0.95 0.006 84);
+
+  --destructive: oklch(0.65 0.17 27);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.32 0.008 84);
+  --input: oklch(0.32 0.008 84);
+  --ring: oklch(0.7 0.05 140);
+
+  --sage: oklch(0.75 0.055 140);
+  --sage-soft: oklch(0.34 0.035 140);
+  --apricot: oklch(0.8 0.09 65);
+  --apricot-soft: oklch(0.36 0.045 65);
+}
+
 @layer base {
   * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+  html.dark { color-scheme: dark; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    transition: background-color 400ms ease, color 400ms ease;
   }
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
     color: var(--color-ink);
+    text-wrap: balance;
+  }
+  h1 { letter-spacing: -0.035em; }
+  h2 { letter-spacing: -0.028em; }
+  p { text-wrap: pretty; }
+  a, button, svg { transition: color 250ms ease, background-color 250ms ease, border-color 250ms ease; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
+
 
 @utility container-editorial {
   width: 100%;
@@ -124,10 +180,11 @@
   background: var(--color-ink);
   color: var(--color-primary-foreground);
   font-weight: 500;
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
-  box-shadow: 0 6px 20px -12px oklch(0.29 0.005 264 / 0.4);
-  &:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -12px oklch(0.29 0.005 264 / 0.45); }
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease, background 300ms ease, color 300ms ease;
+  box-shadow: 0 6px 20px -12px color-mix(in oklab, var(--color-ink) 40%, transparent);
+  &:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -12px color-mix(in oklab, var(--color-ink) 50%, transparent); }
   &:active { transform: translateY(0); }
+
 }
 
 @utility btn-ghost {
@@ -141,8 +198,13 @@
   background: transparent;
   color: var(--color-ink);
   font-weight: 500;
-  transition: transform 200ms ease, background 200ms ease;
-  &:hover { transform: translateY(-2px); background: oklch(1 0 0 / 0.6); }
+  transition: transform 200ms ease, background 200ms ease, border-color 200ms ease;
+  &:hover {
+    transform: translateY(-2px);
+    background: color-mix(in oklab, var(--color-card) 70%, transparent);
+    border-color: color-mix(in oklab, var(--color-sage) 45%, var(--color-border));
+  }
+  &:active { transform: translateY(0); }
 }
 
 @utility card-soft {
@@ -150,6 +212,14 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-3xl);
   padding: 1.75rem;
-  transition: transform 300ms ease, box-shadow 300ms ease;
-  &:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -30px oklch(0.29 0.005 264 / 0.25); }
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease,
+    border-color 300ms ease, background-color 400ms ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px -32px color-mix(in oklab, var(--color-ink) 45%, transparent);
+    border-color: color-mix(in oklab, var(--color-sage) 35%, var(--color-border));
+  }
+  & svg { transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1); }
+  &:hover svg { transform: scale(1.08); }
 }
+
