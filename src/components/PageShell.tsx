@@ -6,11 +6,13 @@ import { LearningDoodles } from "./LearningDoodles";
 
 export function PageShell({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-dvh bg-background">
+    <div className="relative min-h-dvh">
       <LearningDoodles />
       <ThemeToggle />
-      {children}
-      <Footer />
+      <div className="relative z-10">
+        {children}
+        <Footer />
+      </div>
       <NavPill />
     </div>
   );
