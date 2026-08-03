@@ -197,8 +197,13 @@
   background: transparent;
   color: var(--color-ink);
   font-weight: 500;
-  transition: transform 200ms ease, background 200ms ease;
-  &:hover { transform: translateY(-2px); background: oklch(1 0 0 / 0.6); }
+  transition: transform 200ms ease, background 200ms ease, border-color 200ms ease;
+  &:hover {
+    transform: translateY(-2px);
+    background: color-mix(in oklab, var(--color-card) 70%, transparent);
+    border-color: color-mix(in oklab, var(--color-sage) 45%, var(--color-border));
+  }
+  &:active { transform: translateY(0); }
 }
 
 @utility card-soft {
@@ -206,6 +211,14 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-3xl);
   padding: 1.75rem;
-  transition: transform 300ms ease, box-shadow 300ms ease;
-  &:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -30px oklch(0.29 0.005 264 / 0.25); }
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease,
+    border-color 300ms ease, background-color 400ms ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px -32px color-mix(in oklab, var(--color-ink) 45%, transparent);
+    border-color: color-mix(in oklab, var(--color-sage) 35%, var(--color-border));
+  }
+  & svg { transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1); }
+  &:hover svg { transform: scale(1.08); }
 }
+
