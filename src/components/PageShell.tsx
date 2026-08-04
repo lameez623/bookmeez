@@ -9,7 +9,7 @@ export function PageShell({ children }: { children: ReactNode }) {
     <div className="relative min-h-dvh">
       <LearningDoodles />
       <ThemeToggle />
-      <div className="relative z-10">
+      <div className="reveal-rise relative z-10">
         {children}
         <Footer />
       </div>

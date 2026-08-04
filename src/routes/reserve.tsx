@@ -50,7 +50,7 @@ const SUBJECTS = [
   "Technology",
   "Natural Sciences",
   "Life Sciences",
-  "Physical Sciences",
+  "Accounting",
   "History",
   "Geography",
   "Life Orientation",
