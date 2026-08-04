@@ -248,7 +248,6 @@ function AdminCalendar() {
               </div>
             ) : null}
             {bookingsQuery.isLoading ? null : bookings.length === 0 ? (
-            ) : bookings.length === 0 ? (
               <p className="mt-4 text-sm text-ink-soft">No bookings in this period.</p>
             ) : (
               <ul className="mt-6 space-y-3">
