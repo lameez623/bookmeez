@@ -476,9 +476,7 @@ function Reserve() {
                   className="btn-primary disabled:opacity-60"
                 >
                   {submitting ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" /> Reserving…
-                    </>
+                    <LoadingDots label="Reserving…" />
                   ) : (
                     <>
                       Reserve my lesson <Sparkles className="h-4 w-4" />

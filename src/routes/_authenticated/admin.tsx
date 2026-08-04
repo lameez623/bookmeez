@@ -241,6 +241,13 @@ function AdminCalendar() {
           >
             <h2 className="font-display text-2xl font-bold">Confirmed bookings</h2>
             {bookingsQuery.isLoading ? (
+              <div className="mt-4 space-y-3">
+                <div className="skeleton-soft h-16 w-full" />
+                <div className="skeleton-soft h-16 w-full" />
+                <div className="skeleton-soft h-16 w-full" />
+              </div>
+            ) : null}
+            {false ? (
               <p className="mt-4 text-sm text-ink-soft">Loading…</p>
             ) : bookings.length === 0 ? (
               <p className="mt-4 text-sm text-ink-soft">No bookings in this period.</p>
