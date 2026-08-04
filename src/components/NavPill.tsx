@@ -19,7 +19,7 @@ export function NavPill() {
       aria-label="Primary"
     >
       <ul
-        className="flex items-center gap-1 rounded-full border border-border/70 bg-background/70 p-1.5 shadow-[0_10px_40px_-20px_oklch(0.29_0.005_264/0.35)] backdrop-blur-xl"
+        className="glass-panel glass-sheen flex items-center gap-1 rounded-full p-1.5"
       >
         {items.map(({ to, label, icon: Icon }) => (
           <li key={to}>

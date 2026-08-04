@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { OrganicShapes } from "@/components/OrganicShapes";
+import { LoadingDots } from "@/components/LoadingDots";
 import { createBooking, getAvailability } from "@/lib/bookings.functions";
 import { Calendar } from "@/components/ui/calendar";
 import { toDateKey, formatDateLong } from "@/lib/booking-constants";
@@ -50,7 +51,7 @@ const SUBJECTS = [
   "Technology",
   "Natural Sciences",
   "Life Sciences",
-  "Physical Sciences",
+  "Accounting",
   "History",
   "Geography",
   "Life Orientation",
@@ -476,9 +477,7 @@ function Reserve() {
                   className="btn-primary disabled:opacity-60"
                 >
                   {submitting ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" /> Reserving…
-                    </>
+                    <LoadingDots label="Reserving…" />
                   ) : (
                     <>
                       Reserve my lesson <Sparkles className="h-4 w-4" />

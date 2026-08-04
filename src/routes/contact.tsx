@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { PageShell } from "@/components/PageShell";
 import { OrganicShapes } from "@/components/OrganicShapes";
+import { LoadingDots } from "@/components/LoadingDots";
 import { submitEnquiry } from "@/lib/enquiries.functions";
 
 export const Route = createFileRoute("/contact")({
@@ -144,7 +145,13 @@ function Contact() {
                 </div>
                 {error ? <p className="text-sm text-destructive">{error}</p> : null}
                 <button type="submit" disabled={submitting} className="btn-primary w-full disabled:opacity-60">
-                  {submitting ? "Sending…" : "Send message"} <Send className="h-4 w-4" />
+                  {submitting ? (
+                    <LoadingDots label="Sending…" />
+                  ) : (
+                    <>
+                      Send message <Send className="h-4 w-4" />
+                    </>
+                  )}
                 </button>
               </div>
             )}
