@@ -55,98 +55,114 @@
 }
 
 :root {
-  --radius: 1.25rem;
+  --radius: 1.75rem;
 
-  --background: oklch(0.973 0.008 90);           /* warm oat-tinted off-white */
-  --foreground: oklch(0.3 0.018 60);             /* espresso-leaning charcoal */
-  --ink: oklch(0.3 0.018 60);
-  --ink-soft: oklch(0.48 0.016 65);
+  --background: oklch(0.928 0.028 96);           /* oat milk foundation */
+  --foreground: oklch(0.28 0.052 55);            /* espresso ink */
+  --ink: oklch(0.28 0.052 55);
+  --ink-soft: oklch(0.44 0.038 58);
 
-  --card: oklch(0.995 0.004 90);
-  --card-foreground: oklch(0.3 0.018 60);
-  --popover: oklch(0.995 0.004 90);
-  --popover-foreground: oklch(0.3 0.018 60);
+  --card: oklch(0.955 0.022 96);
+  --card-foreground: oklch(0.28 0.052 55);
+  --popover: oklch(0.96 0.02 96);
+  --popover-foreground: oklch(0.28 0.052 55);
 
-  --primary: oklch(0.36 0.055 55);               /* espresso buttons */
-  --primary-foreground: oklch(0.975 0.008 90);
+  --primary: oklch(0.36 0.085 55);               /* espresso buttons */
+  --primary-foreground: oklch(0.955 0.026 96);
 
-  --secondary: oklch(0.945 0.014 92);
-  --secondary-foreground: oklch(0.3 0.018 60);
+  --secondary: oklch(0.885 0.038 100);
+  --secondary-foreground: oklch(0.28 0.052 55);
 
-  --muted: oklch(0.945 0.012 92);
-  --muted-foreground: oklch(0.53 0.012 250);
+  --muted: oklch(0.895 0.03 98);
+  --muted-foreground: oklch(0.47 0.026 70);
 
-  --accent: oklch(0.9 0.03 110);
-  --accent-foreground: oklch(0.3 0.018 60);
+  --accent: oklch(0.79 0.055 118);
+  --accent-foreground: oklch(0.24 0.05 55);
 
   --destructive: oklch(0.55 0.16 30);
   --destructive-foreground: oklch(0.99 0 0);
 
-  --border: oklch(0.9 0.008 250);                /* cloud-tinted hairline */
-  --input: oklch(0.9 0.008 250);
+  --border: oklch(0.8 0.024 110);
+  --input: oklch(0.84 0.024 105);
   --ring: oklch(0.56 0.06 125);
 
-  --sage: oklch(0.56 0.06 125);                  /* #76845B matcha */
-  --sage-soft: oklch(0.9 0.035 118);
+  --sage: oklch(0.56 0.062 125);                 /* #76845B matcha */
+  --sage-soft: oklch(0.83 0.05 118);
+  --sage-deep: oklch(0.43 0.055 128);
   --apricot: oklch(0.86 0.042 100);              /* #D8D3B3 oat milk */
-  --apricot-soft: oklch(0.945 0.028 100);
-  --espresso: oklch(0.36 0.08 55);               /* #603314 */
-  --cloud: oklch(0.76 0.012 250);                /* #B1B7BE */
+  --apricot-soft: oklch(0.915 0.032 100);
+  --espresso: oklch(0.36 0.085 55);              /* #603314 */
+  --cloud: oklch(0.76 0.014 250);                /* #B1B7BE */
 
-  /* Grainy gradient wash */
-  --wash-1: color-mix(in oklab, var(--sage) 12%, transparent);
-  --wash-2: color-mix(in oklab, var(--apricot) 42%, transparent);
-  --wash-3: color-mix(in oklab, var(--cloud) 22%, transparent);
-  --grain-opacity: 0.045;
-  --glass-tint: oklch(1 0 0 / 0.55);
-  --glass-edge: oklch(1 0 0 / 0.6);
+  /* Grainy gradient wash — bold, not shy */
+  --wash-1: color-mix(in oklab, var(--sage) 55%, transparent);
+  --wash-2: color-mix(in oklab, var(--apricot) 88%, transparent);
+  --wash-3: color-mix(in oklab, var(--cloud) 62%, transparent);
+  --wash-4: color-mix(in oklab, var(--espresso) 20%, transparent);
+  --grain-opacity: 0.13;
+
+  /* Liquid glass */
+  --glass-tint: oklch(0.99 0.012 96 / 0.42);
+  --glass-tint-2: oklch(0.94 0.03 110 / 0.22);
+  --glass-edge: oklch(1 0 0 / 0.72);
+  --glass-edge-low: oklch(1 0 0 / 0.18);
+  --glass-glow: color-mix(in oklab, var(--sage) 42%, transparent);
+  --glass-shadow: color-mix(in oklab, var(--espresso) 42%, transparent);
 }
 
 /* Dark theme: same BookMeez identity, warmed-down espresso surfaces. */
 .dark {
-  --background: oklch(0.21 0.014 60);
-  --foreground: oklch(0.95 0.01 92);
-  --ink: oklch(0.95 0.01 92);
-  --ink-soft: oklch(0.79 0.012 92);
+  --background: oklch(0.235 0.026 58);
+  --foreground: oklch(0.94 0.024 96);
+  --ink: oklch(0.94 0.024 96);
+  --ink-soft: oklch(0.79 0.024 96);
 
-  --card: oklch(0.255 0.015 60);
-  --card-foreground: oklch(0.95 0.01 92);
-  --popover: oklch(0.255 0.015 60);
-  --popover-foreground: oklch(0.95 0.01 92);
+  --card: oklch(0.285 0.028 58);
+  --card-foreground: oklch(0.94 0.024 96);
+  --popover: oklch(0.285 0.028 58);
+  --popover-foreground: oklch(0.94 0.024 96);
 
   --primary: oklch(0.86 0.042 100);              /* oat milk buttons on dark */
-  --primary-foreground: oklch(0.24 0.03 55);
+  --primary-foreground: oklch(0.24 0.05 55);
 
-  --secondary: oklch(0.3 0.016 60);
-  --secondary-foreground: oklch(0.95 0.01 92);
+  --secondary: oklch(0.33 0.03 58);
+  --secondary-foreground: oklch(0.94 0.024 96);
 
-  --muted: oklch(0.3 0.016 60);
-  --muted-foreground: oklch(0.74 0.012 250);
+  --muted: oklch(0.33 0.026 60);
+  --muted-foreground: oklch(0.76 0.018 250);
 
-  --accent: oklch(0.37 0.04 125);
-  --accent-foreground: oklch(0.95 0.01 92);
+  --accent: oklch(0.42 0.055 125);
+  --accent-foreground: oklch(0.95 0.02 96);
 
   --destructive: oklch(0.63 0.16 30);
   --destructive-foreground: oklch(0.98 0 0);
 
-  --border: oklch(0.34 0.012 250);
-  --input: oklch(0.34 0.012 250);
+  --border: oklch(0.4 0.026 110);
+  --input: oklch(0.4 0.026 110);
   --ring: oklch(0.7 0.06 125);
 
-  --sage: oklch(0.72 0.06 125);
-  --sage-soft: oklch(0.35 0.04 125);
+  --sage: oklch(0.7 0.07 125);
+  --sage-soft: oklch(0.4 0.05 125);
+  --sage-deep: oklch(0.34 0.05 128);
   --apricot: oklch(0.86 0.042 100);
-  --apricot-soft: oklch(0.36 0.035 90);
-  --espresso: oklch(0.55 0.09 55);
+  --apricot-soft: oklch(0.38 0.04 90);
+  --espresso: oklch(0.55 0.095 55);
   --cloud: oklch(0.7 0.014 250);
 
-  --wash-1: color-mix(in oklab, var(--sage) 14%, transparent);
-  --wash-2: color-mix(in oklab, var(--espresso) 30%, transparent);
-  --wash-3: color-mix(in oklab, var(--cloud) 12%, transparent);
-  --grain-opacity: 0.05;
-  --glass-tint: oklch(1 0 0 / 0.07);
-  --glass-edge: oklch(1 0 0 / 0.12);
+  --wash-1: color-mix(in oklab, var(--sage) 34%, transparent);
+  --wash-2: color-mix(in oklab, var(--espresso) 46%, transparent);
+  --wash-3: color-mix(in oklab, var(--cloud) 24%, transparent);
+  --wash-4: color-mix(in oklab, var(--apricot) 14%, transparent);
+  --grain-opacity: 0.15;
+
+  --glass-tint: oklch(0.7 0.03 110 / 0.14);
+  --glass-tint-2: oklch(0.3 0.03 60 / 0.34);
+  --glass-edge: oklch(1 0 0 / 0.24);
+  --glass-edge-low: oklch(1 0 0 / 0.07);
+  --glass-glow: color-mix(in oklab, var(--sage) 34%, transparent);
+  --glass-shadow: oklch(0 0 0 / 0.5);
 }
+
 
 @layer base {
   * { border-color: var(--color-border); }
