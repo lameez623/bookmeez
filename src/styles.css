@@ -490,3 +490,14 @@
   animation: bm-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+
+/* Nothing sharp: soften native/interactive elements globally. */
+@layer base {
+  input, select, textarea {
+    border-radius: 1.15rem;
+  }
+  button, [role="dialog"], [role="menu"], [role="tooltip"], [data-radix-popper-content-wrapper] > * {
+    border-radius: inherit;
+  }
+  .rounded-none, .rounded-sm { border-radius: 1rem !important; }
+}
