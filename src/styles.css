@@ -98,7 +98,7 @@
   /* Grainy gradient wash — bold, not shy */
   --wash-1: color-mix(in oklab, var(--sage) 78%, transparent);
   --wash-2: color-mix(in oklab, var(--apricot) 88%, transparent);
-  --wash-3: color-mix(in oklab, var(--cloud) 88%, transparent);
+  --wash-3: color-mix(in oklab, var(--cloud) 52%, transparent);
   --wash-4: color-mix(in oklab, var(--espresso) 32%, transparent);
   --grain-opacity: 0.13;
 
@@ -348,8 +348,8 @@
 @utility section-oat {
   background: linear-gradient(
     160deg,
-    color-mix(in oklab, var(--color-apricot) 96%, var(--color-sage) 4%),
-    color-mix(in oklab, var(--color-cloud) 46%, var(--color-apricot) 54%)
+    color-mix(in oklab, var(--color-apricot) 88%, var(--color-espresso) 12%),
+    color-mix(in oklab, var(--color-apricot) 96%, var(--color-sage) 6%)
   );
   border-radius: 2.75rem;
 }
