@@ -111,7 +111,7 @@ function Contact() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="card-soft"
+            className="glass-panel glass-sheen p-7 sm:p-9"
             onSubmit={handleSubmit}
           >
             <h2 className="text-2xl font-bold">Send an enquiry</h2>

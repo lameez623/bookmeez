@@ -250,7 +250,7 @@ function Reserve() {
             </div>
           )}
 
-          <div className="card-soft relative min-h-[420px]">
+          <div className="glass-panel glass-sheen glass-float relative min-h-[420px] p-7 sm:p-9">
             <AnimatePresence mode="wait">
               <motion.div
                 key={step}
@@ -495,7 +495,7 @@ function Reserve() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] grid place-items-center bg-ink/30 px-5 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] grid place-items-center bg-ink/40 px-5 backdrop-blur-md"
             role="dialog"
             aria-modal="true"
             aria-labelledby="in-person-title"
@@ -505,7 +505,7 @@ function Reserve() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 12, scale: 0.98 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
-              className="card-soft w-full max-w-md"
+              className="glass-panel glass-sheen w-full max-w-md p-7"
             >
               <span className="grid h-11 w-11 place-items-center rounded-2xl bg-sage-soft">
                 <MapPin className="h-5 w-5 text-ink" strokeWidth={1.8} />
