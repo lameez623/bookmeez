@@ -58,12 +58,12 @@
 :root {
   --radius: 1.75rem;
 
-  --background: oklch(0.928 0.028 96);           /* oat milk foundation */
+  --background: oklch(0.895 0.038 96);           /* oat milk foundation */
   --foreground: oklch(0.28 0.052 55);            /* espresso ink */
   --ink: oklch(0.28 0.052 55);
   --ink-soft: oklch(0.44 0.038 58);
 
-  --card: oklch(0.955 0.022 96);
+  --card: oklch(0.945 0.026 96);
   --card-foreground: oklch(0.28 0.052 55);
   --popover: oklch(0.96 0.02 96);
   --popover-foreground: oklch(0.28 0.052 55);
@@ -96,10 +96,10 @@
   --cloud: oklch(0.76 0.014 250);                /* #B1B7BE */
 
   /* Grainy gradient wash — bold, not shy */
-  --wash-1: color-mix(in oklab, var(--sage) 55%, transparent);
+  --wash-1: color-mix(in oklab, var(--sage) 78%, transparent);
   --wash-2: color-mix(in oklab, var(--apricot) 88%, transparent);
-  --wash-3: color-mix(in oklab, var(--cloud) 62%, transparent);
-  --wash-4: color-mix(in oklab, var(--espresso) 20%, transparent);
+  --wash-3: color-mix(in oklab, var(--cloud) 88%, transparent);
+  --wash-4: color-mix(in oklab, var(--espresso) 32%, transparent);
   --grain-opacity: 0.13;
 
   /* Liquid glass */
@@ -194,7 +194,7 @@
       radial-gradient(58rem 42rem at 18% 68%, var(--wash-3), transparent 66%),
       radial-gradient(52rem 40rem at 88% 96%, var(--wash-4), transparent 64%),
       radial-gradient(48rem 36rem at 50% 112%, var(--wash-1), transparent 68%);
-    filter: saturate(112%);
+    filter: saturate(126%);
     transition: background 500ms ease;
   }
 
@@ -345,8 +345,8 @@
 @utility section-oat {
   background: linear-gradient(
     160deg,
-    color-mix(in oklab, var(--color-apricot) 92%, white 8%),
-    color-mix(in oklab, var(--color-apricot) 70%, var(--color-cloud) 30%)
+    color-mix(in oklab, var(--color-apricot) 96%, var(--color-sage) 4%),
+    color-mix(in oklab, var(--color-cloud) 46%, var(--color-apricot) 54%)
   );
   border-radius: 2.75rem;
 }
