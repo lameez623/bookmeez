@@ -89,7 +89,7 @@ function AuthPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
-            className="glass-panel glass-sheen p-7 sm:p-9"
+            className="card-soft"
           >
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-sage-soft">
               <Lock className="h-5 w-5 text-ink" strokeWidth={1.8} />
