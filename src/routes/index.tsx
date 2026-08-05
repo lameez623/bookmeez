@@ -40,10 +40,10 @@ function Home() {
           >
             <motion.span
               variants={fadeUp}
-              className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3 py-1 text-xs font-medium text-ink-soft backdrop-blur"
+              className="glass-panel glass-sheen inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-ink"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-sage" />
-              Now taking bookings for the new term
+              <span className="relative h-1.5 w-1.5 rounded-full bg-sage" />
+              <span className="relative">Now taking bookings for the new term</span>
             </motion.span>
 
             <motion.h1
