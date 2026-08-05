@@ -198,7 +198,6 @@
         color-mix(in oklab, var(--apricot) 60%, transparent),
         color-mix(in oklab, var(--cloud) 40%, transparent) 55%,
         color-mix(in oklab, var(--sage) 45%, transparent));
-    filter: saturate(126%);
     transition: background 500ms ease;
   }
 
