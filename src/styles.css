@@ -254,19 +254,57 @@
   padding-inline: 1.25rem;
 }
 
-/* Frosted, layered glass — used as a premium accent, not everywhere. */
+/* ---------------------------------------------------------------
+ * Liquid Glass — layered translucency, refraction, edge light, glow.
+ * --------------------------------------------------------------- */
 @utility glass-panel {
   position: relative;
-  background: linear-gradient(
-    150deg,
-    color-mix(in oklab, var(--color-card) 78%, transparent),
-    color-mix(in oklab, var(--color-card) 52%, transparent)
-  );
-  border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-  backdrop-filter: blur(22px) saturate(140%);
+  isolation: isolate;
+  border-radius: var(--radius-3xl);
+  background:
+    linear-gradient(
+      152deg,
+      var(--glass-tint) 0%,
+      var(--glass-tint-2) 46%,
+      color-mix(in oklab, var(--color-sage) 12%, transparent) 100%
+    );
+  border: 1px solid color-mix(in oklab, var(--glass-edge) 70%, transparent);
+  backdrop-filter: blur(38px) saturate(190%) brightness(108%);
   box-shadow:
-    0 24px 60px -40px color-mix(in oklab, var(--color-ink) 55%, transparent),
-    inset 0 1px 0 var(--glass-edge);
+    0 2px 2px -1px var(--glass-edge-low),
+    0 18px 40px -28px var(--glass-shadow),
+    0 44px 90px -48px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-edge),
+    inset 0 -1px 0 var(--glass-edge-low),
+    inset 0 0 40px -18px var(--glass-glow);
+  transition: box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1), background 420ms ease;
+
+  /* refraction: light bending along the lower edge */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -1;
+    background:
+      radial-gradient(120% 80% at 12% -20%, oklch(1 0 0 / 0.42), transparent 58%),
+      radial-gradient(90% 70% at 100% 118%, var(--glass-glow), transparent 62%);
+    opacity: 0.85;
+  }
+}
+
+@utility glass-float {
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 3px 3px -1px var(--glass-edge-low),
+      0 26px 54px -28px var(--glass-shadow),
+      0 60px 110px -46px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-edge),
+      inset 0 0 60px -16px var(--glass-glow);
+  }
 }
 
 @utility glass-sheen {
@@ -276,13 +314,61 @@
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    background: linear-gradient(
-      160deg,
-      color-mix(in oklab, white 26%, transparent),
-      transparent 42%
-    );
-    opacity: 0.55;
+    background:
+      linear-gradient(
+        158deg,
+        oklch(1 0 0 / 0.55) 0%,
+        oklch(1 0 0 / 0.12) 26%,
+        transparent 48%
+      ),
+      linear-gradient(
+        20deg,
+        transparent 62%,
+        oklch(1 0 0 / 0.16) 88%,
+        transparent 100%
+      );
+    opacity: 0.9;
+    mix-blend-mode: screen;
   }
+}
+
+/* Confident solid colour blocks */
+@utility section-matcha {
+  background:
+    radial-gradient(80% 120% at 12% 0%, color-mix(in oklab, var(--color-sage) 82%, white 18%), transparent 70%),
+    linear-gradient(158deg, var(--color-sage), var(--color-sage-deep));
+  color: oklch(0.975 0.015 96);
+  border-radius: 2.75rem;
+  & h1, & h2, & h3, & h4 { color: oklch(0.985 0.014 96); }
+}
+
+@utility section-oat {
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--color-apricot) 92%, white 8%),
+    color-mix(in oklab, var(--color-apricot) 70%, var(--color-cloud) 30%)
+  );
+  border-radius: 2.75rem;
+}
+
+@utility section-cloud {
+  background: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--color-cloud) 58%, var(--color-background)),
+    color-mix(in oklab, var(--color-cloud) 30%, var(--color-background))
+  );
+  border-radius: 2.75rem;
+}
+
+@utility section-espresso {
+  background: linear-gradient(
+    158deg,
+    color-mix(in oklab, var(--color-espresso) 92%, white 8%),
+    var(--color-espresso)
+  );
+  color: oklch(0.96 0.02 96);
+  border-radius: 2.75rem;
+  & h1, & h2, & h3 { color: oklch(0.97 0.02 96); }
 }
 
 @utility btn-primary {
@@ -291,71 +377,101 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.95rem 1.7rem;
+  padding: 1rem 1.9rem;
   border-radius: 9999px;
+  overflow: hidden;
   background: linear-gradient(
     145deg,
-    color-mix(in oklab, var(--color-primary) 96%, white 4%),
-    var(--color-primary)
+    color-mix(in oklab, var(--color-primary) 84%, white 16%),
+    var(--color-primary) 55%,
+    color-mix(in oklab, var(--color-primary) 88%, black 12%)
   );
   color: var(--color-primary-foreground);
-  font-weight: 500;
-  border: 1px solid color-mix(in oklab, var(--color-primary) 80%, transparent);
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease, background 300ms ease, color 300ms ease;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 70%, black 30%);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease, filter 300ms ease;
   box-shadow:
-    0 10px 26px -16px color-mix(in oklab, var(--color-primary) 70%, transparent),
-    inset 0 1px 0 oklch(1 0 0 / 0.18);
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 18px 38px -18px color-mix(in oklab, var(--color-primary) 75%, transparent),
-      inset 0 1px 0 oklch(1 0 0 / 0.24);
+    0 1px 0 oklch(1 0 0 / 0.28) inset,
+    0 -10px 22px -18px oklch(0 0 0 / 0.6) inset,
+    0 14px 30px -14px color-mix(in oklab, var(--color-primary) 80%, transparent),
+    0 30px 60px -34px var(--glass-shadow);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 1px auto auto 1px;
+    right: 1px;
+    height: 46%;
+    border-radius: 9999px;
+    pointer-events: none;
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.26), transparent);
   }
-  &:active { transform: translateY(0); }
+  &:hover {
+    transform: translateY(-3px) scale(1.015);
+    filter: saturate(112%);
+    box-shadow:
+      0 1px 0 oklch(1 0 0 / 0.34) inset,
+      0 20px 42px -16px color-mix(in oklab, var(--color-primary) 85%, transparent),
+      0 44px 80px -36px var(--glass-shadow);
+  }
+  &:active { transform: translateY(0) scale(0.995); }
 }
 
 @utility btn-ghost {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.95rem 1.7rem;
+  padding: 1rem 1.9rem;
   border-radius: 9999px;
-  border: 1px solid color-mix(in oklab, var(--color-border) 85%, transparent);
-  background: color-mix(in oklab, var(--color-card) 45%, transparent);
-  backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid color-mix(in oklab, var(--glass-edge) 55%, var(--color-border));
+  background: linear-gradient(150deg, var(--glass-tint), var(--glass-tint-2));
+  backdrop-filter: blur(26px) saturate(170%);
   color: var(--color-ink);
-  font-weight: 500;
-  transition: transform 200ms ease, background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  font-weight: 600;
+  box-shadow:
+    inset 0 1px 0 var(--glass-edge),
+    0 16px 34px -28px var(--glass-shadow);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), background 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
   &:hover {
-    transform: translateY(-2px);
-    background: color-mix(in oklab, var(--color-card) 72%, transparent);
-    border-color: color-mix(in oklab, var(--color-sage) 45%, var(--color-border));
-    box-shadow: 0 14px 32px -24px color-mix(in oklab, var(--color-ink) 60%, transparent);
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--color-sage) 55%, var(--color-border));
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      0 26px 50px -26px var(--glass-shadow);
   }
   &:active { transform: translateY(0); }
 }
 
 @utility card-soft {
+  position: relative;
   background: linear-gradient(
     160deg,
-    color-mix(in oklab, var(--color-card) 96%, var(--color-apricot) 4%),
-    var(--color-card)
+    color-mix(in oklab, var(--color-card) 88%, var(--color-apricot) 12%),
+    color-mix(in oklab, var(--color-card) 92%, var(--color-cloud) 8%)
   );
-  border: 1px solid color-mix(in oklab, var(--color-border) 85%, transparent);
-  border-radius: var(--radius-3xl);
-  padding: 1.85rem;
-  box-shadow: 0 18px 44px -38px color-mix(in oklab, var(--color-ink) 45%, transparent);
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease,
-    border-color 300ms ease, background-color 400ms ease;
+  border: 1px solid color-mix(in oklab, var(--color-border) 90%, transparent);
+  border-radius: 2.25rem;
+  padding: 2rem;
+  box-shadow:
+    inset 0 1px 0 var(--glass-edge),
+    0 14px 30px -26px var(--glass-shadow),
+    0 40px 80px -52px var(--glass-shadow);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease,
+    border-color 320ms ease, background-color 400ms ease;
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 28px 56px -34px color-mix(in oklab, var(--color-ink) 48%, transparent);
-    border-color: color-mix(in oklab, var(--color-sage) 38%, var(--color-border));
+    transform: translateY(-6px);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      0 26px 48px -24px var(--glass-shadow),
+      0 60px 100px -48px var(--glass-shadow);
+    border-color: color-mix(in oklab, var(--color-sage) 45%, var(--color-border));
   }
-  & svg { transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1); }
+  & svg { transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1); }
   &:hover svg { transform: scale(1.08); }
 }
+
 
 /* Branded loading affordances */
 @utility skeleton-soft {
