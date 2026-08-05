@@ -496,8 +496,7 @@
   input, select, textarea {
     border-radius: 1.15rem;
   }
-  button, [role="dialog"], [role="menu"], [role="tooltip"], [data-radix-popper-content-wrapper] > * {
-    border-radius: inherit;
+  [role="dialog"], [role="menu"], [role="tooltip"] {
+    border-radius: 1.75rem;
   }
-  .rounded-none, .rounded-sm { border-radius: 1rem !important; }
 }
