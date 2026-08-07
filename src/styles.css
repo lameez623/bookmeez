@@ -57,7 +57,7 @@
 :root {
   --radius: 1.25rem;
 
-  --background: #F7F5EF;                         /* app canvas */
+  --background: #D8D3B3;                         /* oat milk canvas */
   --foreground: #603314;                         /* espresso type */
   --ink: #603314;
   --ink-soft: #76845B;                           /* matcha secondary type */
@@ -73,72 +73,73 @@
   --secondary: #B1B7BE;                          /* cloud surface */
   --secondary-foreground: #603314;
 
-  --muted: #E7E4D6;
-  --muted-foreground: #B1B7BE;
+  --muted: #B1B7BE;
+  --muted-foreground: #603314;
 
   --accent: #D8D3B3;
   --accent-foreground: #603314;
 
-  --destructive: #8C4A32;
-  --destructive-foreground: #F7F5EF;
+  --destructive: #603314;
+  --destructive-foreground: #D8D3B3;
 
-  --border: color-mix(in srgb, #B1B7BE 40%, transparent);
-  --input: color-mix(in srgb, #B1B7BE 40%, transparent);
+  --border: #B1B7BE;
+  --input: #B1B7BE;
   --ring: #76845B;
 
   --sage: #76845B;                               /* matcha */
-  --sage-soft: color-mix(in srgb, #76845B 14%, #F7F5EF);
+  --sage-soft: #D8D3B3;
   --apricot: #D8D3B3;                            /* oat milk */
-  --apricot-soft: color-mix(in srgb, #D8D3B3 55%, #F7F5EF);
+  --apricot-soft: #D8D3B3;
   --espresso: #603314;
   --cloud: #B1B7BE;
 
   --grain-opacity: 0.03;
-  --surface-field: #FFFFFF;
+  --surface-field: #D8D3B3;
 }
 
 
-/* Dark theme: same flat BookMeez palette, deepened espresso surfaces. */
+/* Dark theme: espresso surfaces, oat milk type. Same four exact colours. */
 .dark {
-  --background: #2A211A;
-  --foreground: #EDE8D8;
-  --ink: #EDE8D8;
-  --ink-soft: #C3CBA9;
+  --background: #603314;
+  --foreground: #D8D3B3;
+  --ink: #D8D3B3;
+  --ink-soft: #B1B7BE;
 
-  --card: #3A2E23;
-  --card-foreground: #EDE8D8;
-  --popover: #3A2E23;
-  --popover-foreground: #EDE8D8;
+  --card: #603314;
+  --card-foreground: #D8D3B3;
+  --popover: #603314;
+  --popover-foreground: #D8D3B3;
 
-  --primary: #96A578;
-  --primary-foreground: #2A211A;
+  --primary: #76845B;
+  --primary-foreground: #D8D3B3;
 
-  --secondary: #4A4741;
-  --secondary-foreground: #EDE8D8;
+  --secondary: #76845B;
+  --secondary-foreground: #D8D3B3;
 
-  --muted: #3F352C;
-  --muted-foreground: #B1B7BE;
+  --muted: #76845B;
+  --muted-foreground: #D8D3B3;
 
-  --accent: #3A2E23;
-  --accent-foreground: #EDE8D8;
+  --accent: #76845B;
+  --accent-foreground: #D8D3B3;
 
-  --destructive: #C4715A;
-  --destructive-foreground: #2A211A;
+  --destructive: #B1B7BE;
+  --destructive-foreground: #603314;
 
-  --border: color-mix(in srgb, #B1B7BE 22%, transparent);
-  --input: color-mix(in srgb, #B1B7BE 22%, transparent);
-  --ring: #96A578;
+  --border: #B1B7BE;
+  --input: #B1B7BE;
+  --ring: #76845B;
 
-  --sage: #96A578;
-  --sage-soft: color-mix(in srgb, #96A578 22%, #2A211A);
+  --sage: #76845B;
+  --sage-soft: #76845B;
   --apricot: #D8D3B3;
-  --apricot-soft: color-mix(in srgb, #D8D3B3 18%, #2A211A);
+  --apricot-soft: #76845B;
   --espresso: #D8D3B3;
   --cloud: #B1B7BE;
 
   --grain-opacity: 0.035;
-  --surface-field: #362B21;
+  --surface-field: #603314;
 }
+
 
 @layer base {
   * { border-color: var(--color-border); }
