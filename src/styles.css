@@ -175,7 +175,7 @@
   textarea {
     background-color: var(--surface-field);
     border-radius: var(--radius-xl);
-    border: 1px solid color-mix(in srgb, var(--color-cloud) 40%, transparent);
+    border: 1px solid var(--color-cloud);
     color: var(--color-ink);
     padding-inline: 1rem;
     transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
@@ -193,7 +193,7 @@
   textarea:focus {
     outline: none;
     border-color: var(--color-sage);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-sage) 20%, transparent);
+    box-shadow: 0 0 0 2px var(--color-sage);
   }
 
 
