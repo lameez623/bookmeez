@@ -57,50 +57,46 @@
 :root {
   --radius: 1.25rem;
 
-  --background: oklch(0.973 0.008 90);           /* warm oat-tinted off-white */
-  --foreground: oklch(0.3 0.018 60);             /* espresso-leaning charcoal */
-  --ink: oklch(0.3 0.018 60);
-  --ink-soft: oklch(0.48 0.016 65);
+  --background: #F7F5EF;                         /* app canvas */
+  --foreground: #603314;                         /* espresso type */
+  --ink: #603314;
+  --ink-soft: #76845B;                           /* matcha secondary type */
 
-  --card: oklch(0.995 0.004 90);
-  --card-foreground: oklch(0.3 0.018 60);
-  --popover: oklch(0.995 0.004 90);
-  --popover-foreground: oklch(0.3 0.018 60);
+  --card: #D8D3B3;                               /* oat milk surface */
+  --card-foreground: #603314;
+  --popover: #D8D3B3;
+  --popover-foreground: #603314;
 
-  --primary: oklch(0.36 0.055 55);               /* espresso buttons */
-  --primary-foreground: oklch(0.975 0.008 90);
+  --primary: #76845B;                            /* matcha interactive */
+  --primary-foreground: #D8D3B3;
 
-  --secondary: oklch(0.945 0.014 92);
-  --secondary-foreground: oklch(0.3 0.018 60);
+  --secondary: #B1B7BE;                          /* cloud surface */
+  --secondary-foreground: #603314;
 
-  --muted: oklch(0.945 0.012 92);
-  --muted-foreground: oklch(0.53 0.012 250);
+  --muted: #E7E4D6;
+  --muted-foreground: #B1B7BE;
 
-  --accent: oklch(0.9 0.03 110);
-  --accent-foreground: oklch(0.3 0.018 60);
+  --accent: #D8D3B3;
+  --accent-foreground: #603314;
 
-  --destructive: oklch(0.55 0.16 30);
-  --destructive-foreground: oklch(0.99 0 0);
+  --destructive: #8C4A32;
+  --destructive-foreground: #F7F5EF;
 
-  --border: oklch(0.9 0.008 250);                /* cloud-tinted hairline */
-  --input: oklch(0.9 0.008 250);
-  --ring: oklch(0.56 0.06 125);
+  --border: color-mix(in srgb, #B1B7BE 40%, transparent);
+  --input: color-mix(in srgb, #B1B7BE 40%, transparent);
+  --ring: #76845B;
 
-  --sage: oklch(0.56 0.06 125);                  /* #76845B matcha */
-  --sage-soft: oklch(0.9 0.035 118);
-  --apricot: oklch(0.86 0.042 100);              /* #D8D3B3 oat milk */
-  --apricot-soft: oklch(0.945 0.028 100);
-  --espresso: oklch(0.36 0.08 55);               /* #603314 */
-  --cloud: oklch(0.76 0.012 250);                /* #B1B7BE */
+  --sage: #76845B;                               /* matcha */
+  --sage-soft: color-mix(in srgb, #76845B 14%, #F7F5EF);
+  --apricot: #D8D3B3;                            /* oat milk */
+  --apricot-soft: color-mix(in srgb, #D8D3B3 55%, #F7F5EF);
+  --espresso: #603314;
+  --cloud: #B1B7BE;
 
-  /* Grainy gradient wash */
-  --wash-1: color-mix(in oklab, var(--sage) 12%, transparent);
-  --wash-2: color-mix(in oklab, var(--apricot) 42%, transparent);
-  --wash-3: color-mix(in oklab, var(--cloud) 22%, transparent);
-  --grain-opacity: 0.045;
-  --glass-tint: oklch(1 0 0 / 0.55);
-  --glass-edge: oklch(1 0 0 / 0.6);
+  --grain-opacity: 0.03;
+  --surface-field: #FFFFFF;
 }
+
 
 /* Dark theme: same BookMeez identity, warmed-down espresso surfaces. */
 .dark {
