@@ -54,7 +54,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       title={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="glass-panel glass-sheen fixed right-4 top-4 z-50 grid h-11 w-11 place-items-center rounded-full text-ink-soft transition-all duration-300 hover:-translate-y-0.5 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage/50"
+      className="glass-panel fixed right-4 top-4 z-50 grid h-11 w-11 place-items-center rounded-full text-ink-soft transition-all duration-300 hover:-translate-y-0.5 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage/50"
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
