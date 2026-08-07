@@ -158,7 +158,7 @@ function Approach() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-panel glass-sheen relative overflow-hidden rounded-[2.25rem] px-6 py-10 sm:px-12 sm:py-14"
+            className="glass-panel relative overflow-hidden rounded-[2.25rem] px-6 py-10 sm:px-12 sm:py-14"
           >
             <div className="relative grid gap-8 md:grid-cols-[auto_1fr] md:items-start">
               <div className="flex items-center gap-4 md:flex-col md:items-start">
