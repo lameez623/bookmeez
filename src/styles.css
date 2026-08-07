@@ -98,50 +98,46 @@
 }
 
 
-/* Dark theme: same BookMeez identity, warmed-down espresso surfaces. */
+/* Dark theme: same flat BookMeez palette, deepened espresso surfaces. */
 .dark {
-  --background: oklch(0.21 0.014 60);
-  --foreground: oklch(0.95 0.01 92);
-  --ink: oklch(0.95 0.01 92);
-  --ink-soft: oklch(0.79 0.012 92);
+  --background: #2A211A;
+  --foreground: #EDE8D8;
+  --ink: #EDE8D8;
+  --ink-soft: #C3CBA9;
 
-  --card: oklch(0.255 0.015 60);
-  --card-foreground: oklch(0.95 0.01 92);
-  --popover: oklch(0.255 0.015 60);
-  --popover-foreground: oklch(0.95 0.01 92);
+  --card: #3A2E23;
+  --card-foreground: #EDE8D8;
+  --popover: #3A2E23;
+  --popover-foreground: #EDE8D8;
 
-  --primary: oklch(0.86 0.042 100);              /* oat milk buttons on dark */
-  --primary-foreground: oklch(0.24 0.03 55);
+  --primary: #96A578;
+  --primary-foreground: #2A211A;
 
-  --secondary: oklch(0.3 0.016 60);
-  --secondary-foreground: oklch(0.95 0.01 92);
+  --secondary: #4A4741;
+  --secondary-foreground: #EDE8D8;
 
-  --muted: oklch(0.3 0.016 60);
-  --muted-foreground: oklch(0.74 0.012 250);
+  --muted: #3F352C;
+  --muted-foreground: #B1B7BE;
 
-  --accent: oklch(0.37 0.04 125);
-  --accent-foreground: oklch(0.95 0.01 92);
+  --accent: #3A2E23;
+  --accent-foreground: #EDE8D8;
 
-  --destructive: oklch(0.63 0.16 30);
-  --destructive-foreground: oklch(0.98 0 0);
+  --destructive: #C4715A;
+  --destructive-foreground: #2A211A;
 
-  --border: oklch(0.34 0.012 250);
-  --input: oklch(0.34 0.012 250);
-  --ring: oklch(0.7 0.06 125);
+  --border: color-mix(in srgb, #B1B7BE 22%, transparent);
+  --input: color-mix(in srgb, #B1B7BE 22%, transparent);
+  --ring: #96A578;
 
-  --sage: oklch(0.72 0.06 125);
-  --sage-soft: oklch(0.35 0.04 125);
-  --apricot: oklch(0.86 0.042 100);
-  --apricot-soft: oklch(0.36 0.035 90);
-  --espresso: oklch(0.55 0.09 55);
-  --cloud: oklch(0.7 0.014 250);
+  --sage: #96A578;
+  --sage-soft: color-mix(in srgb, #96A578 22%, #2A211A);
+  --apricot: #D8D3B3;
+  --apricot-soft: color-mix(in srgb, #D8D3B3 18%, #2A211A);
+  --espresso: #D8D3B3;
+  --cloud: #B1B7BE;
 
-  --wash-1: color-mix(in oklab, var(--sage) 14%, transparent);
-  --wash-2: color-mix(in oklab, var(--espresso) 30%, transparent);
-  --wash-3: color-mix(in oklab, var(--cloud) 12%, transparent);
-  --grain-opacity: 0.05;
-  --glass-tint: oklch(1 0 0 / 0.07);
-  --glass-edge: oklch(1 0 0 / 0.12);
+  --grain-opacity: 0.035;
+  --surface-field: #362B21;
 }
 
 @layer base {
@@ -160,21 +156,7 @@
     transition: background-color 400ms ease, color 400ms ease;
   }
 
-  /* Soft, organic multi-stop wash behind everything. */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -20;
-    pointer-events: none;
-    background:
-      radial-gradient(60rem 40rem at 8% -5%, var(--wash-1), transparent 60%),
-      radial-gradient(52rem 36rem at 96% 12%, var(--wash-2), transparent 62%),
-      radial-gradient(46rem 34rem at 40% 105%, var(--wash-3), transparent 65%);
-    transition: background 500ms ease;
-  }
-
-  /* Very fine paper grain. */
+  /* Very fine paper grain — flat colour only, no gradients. */
   body::after {
     content: "";
     position: fixed;
@@ -186,6 +168,33 @@
     background-size: 140px 140px;
     mix-blend-mode: soft-light;
   }
+
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    background-color: var(--surface-field);
+    border-radius: var(--radius-xl);
+    border: 1px solid color-mix(in srgb, var(--color-cloud) 40%, transparent);
+    color: var(--color-ink);
+    padding-inline: 1rem;
+    transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  }
+  input:not([type="checkbox"]):not([type="radio"]),
+  select {
+    height: 3rem;
+  }
+  textarea { padding-block: 0.85rem; }
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--color-sage);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-sage) 20%, transparent);
+  }
+
 
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
