@@ -40,7 +40,7 @@ function Home() {
           >
             <motion.span
               variants={fadeUp}
-              className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3 py-1 text-xs font-medium text-ink-soft backdrop-blur"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-ink-soft backdrop-blur"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-sage" />
               Now taking bookings for the new term
@@ -55,7 +55,7 @@ function Home() {
                 confidence
                 <span
                   aria-hidden
-                  className="absolute -bottom-1 left-0 right-0 h-3 rounded-full bg-apricot/70"
+                  className="absolute -bottom-1 left-0 right-0 h-3 rounded-full bg-sage"
                   style={{ zIndex: -1 }}
                 />
               </span>
@@ -194,7 +194,7 @@ function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="flex items-center gap-4 rounded-3xl border border-border/70 bg-card px-5 py-4"
+                className="flex items-center gap-4 rounded-3xl border border-border bg-card px-5 py-4"
               >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-apricot-soft">
                   <f.icon className="h-4 w-4 text-ink" strokeWidth={1.8} />
