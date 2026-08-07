@@ -113,8 +113,8 @@ function Home() {
             className="relative"
           >
             <div className="card-soft relative overflow-hidden">
-              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-cloud/20" />
-              <div className="absolute -bottom-14 -left-10 h-40 w-40 rounded-full bg-sage/10" />
+              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-cloud" />
+
 
               <div className="relative">
                 <Heart className="h-8 w-8 text-sage" strokeWidth={1.8} />
@@ -214,10 +214,10 @@ function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative overflow-hidden rounded-[2.5rem] border border-border/70 bg-card px-8 py-14 sm:px-14 sm:py-20"
+            className="relative overflow-hidden rounded-[2.5rem] border border-border bg-card px-8 py-14 sm:px-14 sm:py-20"
           >
-            <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-apricot/50 blur-3xl" />
-            <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-sage/30 blur-3xl" />
+            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-cloud" />
+
             <div className="relative max-w-2xl">
               <h2 className="text-3xl font-bold leading-tight sm:text-5xl">
                 Ready to see your learner smile about school again?

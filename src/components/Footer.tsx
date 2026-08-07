@@ -6,7 +6,7 @@ export function Footer() {
       <div className="container-editorial grid gap-10 sm:grid-cols-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-2xl bg-sage/25 font-display text-sm font-bold text-ink">
+            <span className="grid h-9 w-9 place-items-center rounded-2xl bg-sage font-display text-sm font-bold text-ink">
               ah
             </span>
             <span className="font-display text-lg font-semibold tracking-tight">

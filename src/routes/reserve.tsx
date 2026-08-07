@@ -697,7 +697,7 @@ function ConfirmationCard({ state }: { state: BookingState }) {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.15, type: "spring", stiffness: 220, damping: 18 }}
-        className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-sage/25"
+        className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-sage"
       >
         <CheckCircle2 className="h-8 w-8 text-sage" />
       </motion.div>
