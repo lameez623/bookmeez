@@ -113,8 +113,9 @@ function Home() {
             className="relative"
           >
             <div className="card-soft relative overflow-hidden">
-              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-apricot/50 blur-2xl" />
-              <div className="absolute -bottom-14 -left-10 h-40 w-40 rounded-full bg-sage/40 blur-2xl" />
+              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-cloud/20" />
+              <div className="absolute -bottom-14 -left-10 h-40 w-40 rounded-full bg-sage/10" />
+
               <div className="relative">
                 <Heart className="h-8 w-8 text-sage" strokeWidth={1.8} />
                 <p className="mt-6 font-display text-xl leading-relaxed">
